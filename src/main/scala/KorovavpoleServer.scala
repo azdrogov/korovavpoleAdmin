@@ -19,13 +19,13 @@ object KorovavpoleServer {
     type AppRIO[A] = RIO[AppEnv, A]
 
     private val routes: HttpRoutes[AppRIO] = {
-        ZHttp4sServerInterpreter().from(List(createUserEndpointLogic, deleteUserEndpointLogic, lockUserEndpointLogic, unlockUserEndpointLogic)).toRoutes
+        ZHttp4sServerInterpreter().from(List(healthCheckEndpointLogic, createUserEndpointLogic, deleteUserEndpointLogic, lockUserEndpointLogic, unlockUserEndpointLogic)).toRoutes
     }
 
     private val routesSwagger: HttpRoutes[AppRIO] = {
         ZHttp4sServerInterpreter()
             .from(SwaggerInterpreter()
-                .fromEndpoints[AppRIO](List(createUserEndpoint, deleteUserEndpoint, lockUserEndpoint, unlockUserEndpoint), "Korova Admin", "1.0")
+                .fromEndpoints[AppRIO](List(healthCheckEndpoint, createUserEndpoint, deleteUserEndpoint, lockUserEndpoint, unlockUserEndpoint), "Korova Admin", "1.0")
             ).toRoutes
     }
 

@@ -4,6 +4,13 @@ import sttp.tapir.ztapir._
 object EndPoint {
     private val baseUrl = endpoint.in("api")
 
+    val healthCheckEndpoint: Endpoint[Unit, Unit, String, String, Any] =
+        baseUrl.get
+            .in("healthCheck")
+            .out(stringBody.example("Здарова, заебал!"))
+            .errorOut(stringBody.example("Нет ответа"))
+            .description("Проверяет работает ли API")
+
     val createUserEndpoint: Endpoint[Unit, (String, String), String, String, Any] =
         baseUrl.post
             .in("user" / "create")

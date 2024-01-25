@@ -1,10 +1,13 @@
-import EndPoint.{createUserEndpoint, deleteUserEndpoint, lockUserEndpoint, unlockUserEndpoint}
+import EndPoint.{createUserEndpoint, deleteUserEndpoint, healthCheckEndpoint, lockUserEndpoint, unlockUserEndpoint}
 import sttp.tapir.ztapir._
 import zio.ZIO
 
 import sys.process._
 
 object ServerLogic {
+    val healthCheckEndpointLogic: ZServerEndpoint[Any, Any] =
+        healthCheckEndpoint.zServerLogic(_ => ZIO.succeed("Здарова, заебал"))
+
     val createUserEndpointLogic: ZServerEndpoint[Any, Any] =
         createUserEndpoint
             .zServerLogic { case (login, password) =>
