@@ -2,8 +2,10 @@ import sttp.tapir.Endpoint
 import sttp.tapir.ztapir._
 
 object EndPoint {
+    private val baseUrl = endpoint.in("api")
+
     val createUserEndpoint: Endpoint[Unit, (String, String), String, String, Any] =
-        endpoint.post
+        baseUrl.post
             .in("user" / "create")
             .in(query[String]("login").example("Korova"))
             .in(query[String]("password").example("qwerty"))
@@ -12,7 +14,7 @@ object EndPoint {
             .description("Создаёт пользователя по логину и паролю")
 
     val deleteUserEndpoint: Endpoint[Unit, String, String, String, Any] =
-        endpoint.delete
+        baseUrl.delete
             .in("user" / "delete")
             .in(query[String]("login").example("Korova"))
             .out(stringBody.example("Success. Пользователь удалён"))
@@ -20,7 +22,7 @@ object EndPoint {
             .description("Удаляет пользователя по логину")
 
     val lockUserEndpoint: Endpoint[Unit, String, String, String, Any] =
-        endpoint.post
+        baseUrl.post
             .in("user" / "lock")
             .in(query[String]("login").example("Korova"))
             .out(stringBody.example("Success. Пользователь заблокирован"))
@@ -28,7 +30,7 @@ object EndPoint {
             .description("Блокирует пользователя по логину")
 
     val unlockUserEndpoint: Endpoint[Unit, String, String, String, Any] =
-        endpoint.post
+        baseUrl.post
             .in("user" / "unlock")
             .in(query[String]("login").example("Korova"))
             .out(stringBody.example("Success. Пользователь разблокирован"))

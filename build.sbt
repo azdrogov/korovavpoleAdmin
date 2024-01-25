@@ -15,3 +15,14 @@ libraryDependencies ++= Seq(
     "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-bundle" % "1.9.6",
     "com.softwaremill.sttp.tapir" %% "tapir-json-circe" % "1.9.6",
 )
+
+assembly / assemblyMergeStrategy := {
+    case PathList("META-INF", "maven", "org.webjars", "swagger-ui", "pom.properties") =>
+        MergeStrategy.singleOrError
+    case PathList("META-INF", "resources", "webjars", "swagger-ui", _*)               =>
+        MergeStrategy.singleOrError
+    case PathList("META-INF", _*)                                                     => MergeStrategy.discard // Optional, but usually required
+    case x                                                                            =>
+        val oldStrategy = (assembly / assemblyMergeStrategy).value
+        oldStrategy(x)
+}
